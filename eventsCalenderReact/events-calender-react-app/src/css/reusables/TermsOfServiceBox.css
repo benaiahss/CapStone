@@ -1,0 +1,28 @@
+.terms-box{
+    height: 80%;
+    width: 40%;
+    background-color: #212121;
+    color: aliceblue;
+    border-radius: 8%;
+    overflow: hidden;
+    overflow-y: scroll;
+    box-shadow: -10px 10px 20px 1px rgb(0, 0, 0);
+}
+
+.terms-box::-webkit-scrollbar{
+    display: none;
+}
+
+.box-text-top{
+    margin-top: 170px;
+}
+
+.box-text{
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.box-text-bottum{
+    margin-bottom: 50px;
+}
