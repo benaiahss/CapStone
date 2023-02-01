@@ -3,7 +3,7 @@ import "../../css/reusables/TermsOfServiceBox.css"
 
 function TermsOfServiceBox() {
     return (
-            <div className='flex-col center'><div className='box-text-top'>Welcome to our website! By using our services, you agree to the following terms and conditions:
+            <div className='flex-col center'><div className='box-text-top'>Welcome to our website! By using our services, you agree to the following terms and conditions: 
             </div>
                 <div className='box-text'>No stealing our jokes. We put a lot of effort into making them and we'd like to keep them for ourselves.
                 </div>

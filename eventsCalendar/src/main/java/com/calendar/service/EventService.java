@@ -50,11 +50,14 @@ public class EventService {
     }
 
 
-    public Event updateEvent(Event event) throws Exception {
+    public Event updateEvent(Integer eventId) throws Exception {
+
+        Event event = getEventById(eventId);
 
         if (event.getId() == null) {
             throw new Exception("Event not found.");
         }
+
         return eventRepo.save(event);
 
     }

@@ -4,7 +4,8 @@ import '../../css/reusables/Home.css'
 import EventsBox from '../reusables/EventsBox'
 import PopUp from '../reusables/PopUp'
 import SharedEventsBox from '../reusables/SharedEventsBox'
-import SharePopUp from '../reusables/SharePopUp'
+import SharePopup from '../reusables/SharePopup'
+import EditPopup from '../reusables/EditPopup'
 
 function Home(props) {
 
@@ -55,6 +56,7 @@ function Home(props) {
 
   const [buttonPopup, setButtonPopup] = useState(false);
   const [sharePopup, setSharePopup] = useState(false);
+  const [editPopup, setEditPopup] = useState(false);
   return (
     <div className='full-width center'>
       <div className='half-width center'>
@@ -63,10 +65,12 @@ function Home(props) {
       <div className='half-width center'>
         <SharedEventsBox setButtonPopup={setButtonPopup} setActiveEvent={setActiveEvent} sharedEvents={sharedEvents} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}/>
       </div>
-      <PopUp buttonPopup={buttonPopup} activeEvent={activeEvent} setSharePopup={setSharePopup} setButtonPopup={setButtonPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
+      <PopUp buttonPopup={buttonPopup} setEditPopup={setEditPopup} activeEvent={activeEvent} setSharePopup={setSharePopup} setButtonPopup={setButtonPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
       </PopUp>
-      <SharePopUp sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
-      </SharePopUp>
+      <SharePopup sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser}>
+      </SharePopup>
+      <EditPopup editPopup={editPopup} activeEvent={activeEvent} setEditPopup={setEditPopup} user={props.user} setUser={props.setUser}>
+      </EditPopup>
     </div>
   )
 }

@@ -82,13 +82,14 @@ public class EventController {
     }
 
     /* Update Event */
-    @RequestMapping(value = "/updateEvent", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Object> updateSchool(@RequestBody Event event) {
+    @RequestMapping(value = "/updateEvent/{eventId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<Object> updateSchool(@RequestBody Integer eventId) {
 
         try {
 
-            Event updatedSchool = eventService.updateEvent(event);
-            return new ResponseEntity<>(updatedSchool, HttpStatus.OK);
+            Event event = eventService.updateEvent(eventId);
+
+            return new ResponseEntity<>(event, HttpStatus.OK);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -124,7 +125,7 @@ public class EventController {
 
         try {
 
-            List <Event> usersEvents = eventService.getUsersEvents(userId);
+            List<Event> usersEvents = eventService.getUsersEvents(userId);
 
             return new ResponseEntity<>(usersEvents, HttpStatus.OK);
 
@@ -142,7 +143,7 @@ public class EventController {
 
         try {
 
-            List <Event> usersEvents = eventService.getSharedEvents(userId);
+            List<Event> usersEvents = eventService.getSharedEvents(userId);
 
             return new ResponseEntity<>(usersEvents, HttpStatus.OK);
 
@@ -179,8 +180,7 @@ public class EventController {
 
         try {
 
-
-           eventService.share(userId, eventId);
+            eventService.share(userId, eventId);
 
             return new ResponseEntity<>(eventId, HttpStatus.OK);
 

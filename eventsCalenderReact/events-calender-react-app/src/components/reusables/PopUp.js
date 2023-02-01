@@ -7,7 +7,7 @@ function PopUp(props) {
     const deleteHandler = (event) => {
 
         axios.delete(`http://localhost:8080/deleteEventById/${event.currentTarget.id}`)
-            .then(async (response) => {
+            .then((response) => {
                 window.location.reload()
             })
             .catch((e) => {
@@ -19,6 +19,11 @@ function PopUp(props) {
                 props.setButtonPopup(false)
                 props.setSharePopup(true)
     }
+
+    const editHandler = () => {
+        props.setButtonPopup(false)
+        props.setEditPopup(true)
+}
 
 return (props.buttonPopup) ? (
     <div className='popup center'>
@@ -147,7 +152,7 @@ return (props.buttonPopup) ? (
                     </button>
                 </div>
                 <div>
-                    <button>
+                    <button onClick={editHandler}>
                         edit
                     </button>
                 </div>

@@ -57,13 +57,13 @@ public class User {
     })
     private List<Event> sharedEvents;
 
-    // @ManyToMany
-    // @JoinTable(name = "friends", joinColumns = {
-    //         @JoinColumn(name = "user_id", referencedColumnName = "id")
-    // }, inverseJoinColumns = {
-    //         @JoinColumn(name = "friend_id", referencedColumnName = "id")
-    // })
-    // private List<User> friends;
+    @ManyToMany
+    @JoinTable(name = "friends", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "friend_id", referencedColumnName = "id")
+    })
+    private List<User> friends;
 
     @ManyToMany
     @JoinTable(name = "inbox", joinColumns = {
@@ -136,13 +136,13 @@ public class User {
         this.sharedEvents = sharedEvents;
     }
 
-    // public List<User> getFriends() {
-    //     return friends;
-    // }
+    public List<User> getFriends() {
+        return friends;
+    }
 
-    // public void setFriends(List<User> friends) {
-    //     this.friends = friends;
-    // }
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
 
     public List<Inbox> getInbox() {
         return inbox;
@@ -156,7 +156,7 @@ public class User {
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
                 + ", confirmPass=" + confirmPass + ", isAdmin=" + isAdmin + ", events=" + events + ", sharedEvents="
-                + sharedEvents + ", inbox=" + inbox + "]";
+                + sharedEvents + ", friends=" + friends + ", inbox=" + inbox + "]";
     }
 
 }

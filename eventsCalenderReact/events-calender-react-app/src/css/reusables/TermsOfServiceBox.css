@@ -9,20 +9,21 @@
     box-shadow: -10px 10px 20px 1px rgb(0, 0, 0);
 }
 
-.terms-box::-webkit-scrollbar{
-    display: none;
-}
+
 
 .box-text-top{
     margin-top: 170px;
+    word-break: break-all;
 }
 
 .box-text{
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
+    word-break: break-all;
 }
 
 .box-text-bottum{
     margin-bottom: 50px;
+    word-break: break-all;
 }
