@@ -38,13 +38,13 @@ function DropDown(props) {
           <div className='drop-down-text'>{props.user.username}</div>
           <div className="flex-col">
             <a href='/addEvent'><DropdownItem text={"Add Event"} href={"/addEvent"} /></a>
-            <a href='AddFriends' className='line-through'><DropdownItem text={"Add Friends"} href={'AddFriends'} /></a>
-            <a href='/edit'><DropdownItem text={"Edit Profile"} href={'/edit'} /></a>
+            <a href='/profile'><DropdownItem text={"Edit Profile"} href={'/profile'} /></a>
             <a href='/inbox'><DropdownItem text={"Inbox"} href={'/inbox'} /></a>
             <a href='/help'><DropdownItem text={"Help"} href={'/help'} /></a>
             {
               props.user.isAdmin ? <a href='/Admin'><DropdownItem text={"Admin"} href={'/Admin'} /></a> : null
             }
+            <a href='AddFriends' className='line-through'><DropdownItem text={"comming soon"} href={'AddFriends'} /></a>
           </div>
           </div>
       </div>}

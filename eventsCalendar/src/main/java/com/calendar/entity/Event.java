@@ -75,25 +75,14 @@ public class Event {
     @Column(name = "state")
     private String state;
 
-
-
-
     @ManyToMany
-    @JoinTable(
-        name="shared_events",
-        joinColumns={
-        @JoinColumn(name="shared_event_id", referencedColumnName = "id")
-        },
-        inverseJoinColumns = {
-        @JoinColumn(name="user_id", referencedColumnName = "id")
-        }
-        )
-        @JsonIgnore
-        List<User> users;
-
-
-    public Event() {
-    }
+    @JoinTable(name = "shared_events", joinColumns = {
+            @JoinColumn(name = "shared_event_id", referencedColumnName = "id")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id")
+    })
+    @JsonIgnore
+    List<User> users;
 
     public Integer getId() {
         return id;
@@ -115,7 +104,6 @@ public class Event {
         this.type = type;
     }
 
-
     public List<User> getUsers() {
         return users;
     }
@@ -123,8 +111,6 @@ public class Event {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-
-    
 
     public String getCity() {
         return city;
@@ -182,8 +168,6 @@ public class Event {
         this.phone = phone;
     }
 
-    
-
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -231,6 +215,7 @@ public class Event {
     public void setUsername(String username) {
         this.username = username;
     }
+
 
     @Override
     public String toString() {

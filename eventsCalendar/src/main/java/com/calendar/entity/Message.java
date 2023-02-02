@@ -5,11 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "inbox")
-public class Inbox {
+public class Message {
 
     // ID lets you know its an id, PRIMARY KEY
     @Id
@@ -22,37 +24,51 @@ public class Inbox {
     private Integer id;
 
     @Column(name = "title")
-    private Integer title;
+    private String title;
 
     @Column(name = "subject")
-    private Integer subject;
+    private String subject;
 
-    public Inbox() {
+    @OneToOne
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Event event;
+
+
+    public Message() {
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Integer title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public Integer getSubject() {
+    public String getSubject() {
         return subject;
     }
 
-    public void setSubject(Integer subject) {
+    public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     @Override
     public String toString() {
-        return "Inbox [id=" + id + ", title=" + title + ", subject=" + subject + "]";
+        return "Message [id=" + id + ", title=" + title + ", subject=" + subject + ", event=" + event + "]";
     }
-    
+
 }

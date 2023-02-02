@@ -6,6 +6,7 @@ import PopUp from '../reusables/PopUp'
 import SharedEventsBox from '../reusables/SharedEventsBox'
 import SharePopup from '../reusables/SharePopup'
 import EditPopup from '../reusables/EditPopup'
+import SharedPopup from '../reusables/SharedPopup'
 
 function Home(props) {
 
@@ -57,20 +58,23 @@ function Home(props) {
   const [buttonPopup, setButtonPopup] = useState(false);
   const [sharePopup, setSharePopup] = useState(false);
   const [editPopup, setEditPopup] = useState(false);
+  const [sharedPopup, setSharedPopup] = useState(false);
   return (
     <div className='full-width center'>
       <div className='half-width center'>
         <EventsBox setButtonPopup={setButtonPopup} setActiveEvent={setActiveEvent} allEvents={allEvents} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} />
       </div>
       <div className='half-width center'>
-        <SharedEventsBox setButtonPopup={setButtonPopup} setActiveEvent={setActiveEvent} sharedEvents={sharedEvents} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}/>
+        <SharedEventsBox setSharedPopup={setSharedPopup} setActiveEvent={setActiveEvent} sharedEvents={sharedEvents} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}/>
       </div>
       <PopUp buttonPopup={buttonPopup} setEditPopup={setEditPopup} activeEvent={activeEvent} setSharePopup={setSharePopup} setButtonPopup={setButtonPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
       </PopUp>
-      <SharePopup sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser}>
+      <SharePopup isLoading={isLoading} sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser}>
       </SharePopup>
-      <EditPopup editPopup={editPopup} activeEvent={activeEvent} setEditPopup={setEditPopup} user={props.user} setUser={props.setUser}>
+      <EditPopup editPopup={editPopup} activeEvent={activeEvent} setEditPopup={setEditPopup} user={props.user} setUser={props.setUser} isLoading={isLoading}>
       </EditPopup>
+      <SharedPopup sharedPopup={sharedPopup} activeEvent={activeEvent} setSharedPopup={setSharedPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
+      </SharedPopup>
     </div>
   )
 }

@@ -65,13 +65,9 @@ public class User {
     })
     private List<User> friends;
 
-    @ManyToMany
-    @JoinTable(name = "inbox", joinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "friend_id", referencedColumnName = "id")
-    })
-    private List<Inbox> inbox;
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Message> inbox;
 
     public User() {
     }
@@ -144,11 +140,11 @@ public class User {
         this.friends = friends;
     }
 
-    public List<Inbox> getInbox() {
+    public List<Message> getInbox() {
         return inbox;
     }
 
-    public void setInbox(List<Inbox> inbox) {
+    public void setInbox(List<Message> inbox) {
         this.inbox = inbox;
     }
 

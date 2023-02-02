@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.calendar.entity.Event;
+import com.calendar.entity.Message;
 import com.calendar.entity.User;
 import com.calendar.repo.EventRepo;
 
@@ -17,6 +18,9 @@ public class EventService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MessageService messageService;
 
     public Event create(Event event, Integer userId) {
 
@@ -49,16 +53,11 @@ public class EventService {
         return user.getSharedEvents();
     }
 
+    public Event updateEvent(Event event) throws Exception {
 
-    public Event updateEvent(Integer eventId) throws Exception {
+        Event savedEvent = save(event);
 
-        Event event = getEventById(eventId);
-
-        if (event.getId() == null) {
-            throw new Exception("Event not found.");
-        }
-
-        return eventRepo.save(event);
+        return savedEvent;
 
     }
 
@@ -79,11 +78,51 @@ public class EventService {
 
     }
 
-    public Event share(Integer userId, Integer eventId) throws Exception {
+    public User deleteSharedEvent(Integer eventId, Integer userId) throws Exception {
+
+        User user = userService.findById(userId);
+        Event event = getEventById(eventId);
+
+        if (event == null || user == null) {
+            throw new Exception("Not Found!");
+        } else {
+
+            for (int i = 0; i < user.getSharedEvents().size(); i++) {
+                if (user.getSharedEvents().get(i).getId().equals(event.getId())) {
+                    user.getSharedEvents().remove(i);
+                    userService.save(user);
+                } else {
+                    throw new Exception("Not Found!");
+                }
+
+            }
+        }
+        return user;
+    }
+
+    public Event share(Integer userId, Integer eventId, Integer signedInUserId) throws Exception {
 
         User user = userService.findById(userId);
 
+        User signedInUser = userService.findById(signedInUserId);
+
         Event sharedEvent = getEventById(eventId);
+
+
+        for (int i = 0; i < user.getSharedEvents().size(); i++) {
+            if (user.getSharedEvents().get(i).getId() == (sharedEvent.getId())) {
+
+                throw new Exception("Event already shared with this user");
+
+            }
+        }
+        Message message = new Message();
+
+        message.setEvent(sharedEvent);
+        message.setTitle("" + signedInUser.getUsername() + " Shared an event with you");
+        user.getInbox().add(message);
+
+        messageService.save(message);
 
         user.getSharedEvents().add(sharedEvent);
 

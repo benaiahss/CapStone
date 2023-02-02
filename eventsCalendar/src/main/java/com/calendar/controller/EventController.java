@@ -82,12 +82,12 @@ public class EventController {
     }
 
     /* Update Event */
-    @RequestMapping(value = "/updateEvent/{eventId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<Object> updateSchool(@RequestBody Integer eventId) {
+    @RequestMapping(value = "/updateEvent", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public ResponseEntity<Object> updateSchool(@RequestBody Event event) {
 
         try {
 
-            Event event = eventService.updateEvent(eventId);
+            event = eventService.updateEvent(event);
 
             return new ResponseEntity<>(event, HttpStatus.OK);
 
@@ -175,14 +175,32 @@ public class EventController {
         }
     }
 
-    @RequestMapping(value = "/share/{userId}/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Object> share(@PathVariable Integer userId, @PathVariable Integer eventId) {
+    @RequestMapping(value = "/share/{userId}/{eventId}/{signedInUserId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> share(@PathVariable Integer userId, @PathVariable Integer eventId, @PathVariable Integer signedInUserId) {
 
         try {
 
-            eventService.share(userId, eventId);
+            eventService.share(userId, eventId, signedInUserId);
 
             return new ResponseEntity<>(eventId, HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Error e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/deleteSharedEvent/{userId}/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> deleteSharedEvent(@PathVariable Integer userId, @PathVariable Integer eventId) {
+
+        try {
+
+            User user = eventService.deleteSharedEvent(userId, eventId);
+
+            return new ResponseEntity<>(user, HttpStatus.OK);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

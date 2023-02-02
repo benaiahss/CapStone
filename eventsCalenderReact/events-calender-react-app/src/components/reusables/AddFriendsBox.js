@@ -41,7 +41,7 @@ function AddFriendsBox(props) {
 
 
         } else {
-            props.setIsLoading(false)
+            setIsLoading(false)
         }
     }, [])
 

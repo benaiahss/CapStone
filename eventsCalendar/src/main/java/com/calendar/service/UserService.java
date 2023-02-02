@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.calendar.entity.Event;
 import com.calendar.entity.User;
 import com.calendar.repo.UserRepo;
 
@@ -26,11 +27,11 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public User findByEmailAndPassword(User user) throws Exception{
-        
+    public User findByEmailAndPassword(User user) throws Exception {
+
         User signedInUser = userRepo.findByEmailAndPassword(user.getUsername(), user.getPassword());
 
-        if(signedInUser == null) {
+        if (signedInUser == null) {
             throw new Exception("No User Found");
         }
 
@@ -45,8 +46,8 @@ public class UserService {
         return userRepo.findById(userId).get();
     }
 
-    public User findAdmin(boolean isAdmin) {
-        return userRepo.findAdmin(isAdmin);
+    public User findAdmin() {
+        return userRepo.findAdmin();
     }
 
     public List<User> findAllUsers() {
@@ -96,6 +97,33 @@ public class UserService {
         save(loggenInUser);
 
         return loggenInUser;
+    }
+
+    public User updateUser(User user) throws Exception {
+
+        user = save(user);
+
+       return user;
+
+    }
+
+
+    public List<User> findEventUser(Integer userId, Event event) {
+
+        User user = findById(userId);
+
+        List<User> tempUsers = userRepo.findAll();
+
+        tempUsers.remove(user);
+
+        for (int i = 0; i < tempUsers.size(); i++) {
+            for (int j = 0; j < tempUsers.get(i).getSharedEvents().size(); j++) {
+                if (event.getId().equals((tempUsers.get(i).getSharedEvents().get(j).getId()))) {
+                    tempUsers.remove(i);
+                }
+            }
+        }
+        return tempUsers;
     }
 
 }

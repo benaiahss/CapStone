@@ -2,9 +2,11 @@ import axios from 'axios'
 import '../../css/reusables/PopUp.css'
 import x from '../../img/X.jpg'
 import React, { useEffect, useState } from 'react'
+import LoadingSpinner from './LoadingSpinner'
 
 function SharePopup(props) {
     const [users1, setUsers1] = useState([])
+    const [event1, setEvent1] = useState([])
 
     useEffect(() => {
 
@@ -16,10 +18,11 @@ function SharePopup(props) {
 
                 .then((response) => {
 
-                    axios.get(`http://localhost:8080/getAllNonFriends/${response.data.id}`)
+                    axios.get(`http://localhost:8080/findEventUser/${props.activeEvent.id}/${response.data.id}`)
                         .then((response) => {
-                            setUsers1(response.data)
                             console.log(response.data)
+                            setUsers1(response.data)
+                            setEvent1(props.activeEvent)
                         })
                         .catch((e) => {
                             console.log(e)
@@ -29,51 +32,82 @@ function SharePopup(props) {
                     console.log(e)
                 })
         }
-    }, [])
+       
+    }, [props.activeEvent])
 
     const clickHandler = (event) => {
 
-        axios.get(`http://localhost:8080/share/${event.currentTarget.id}/${props.activeEvent.id}`)
-        .then((response) => {
-            window.location.reload()
-        })
-        .catch((e) => {
-            console.log(e)
-        })
+        axios.get(`http://localhost:8080/share/${event.currentTarget.id}/${event1.id}/${props.user.id}`)
+            .then((response) => {
+                window.location.reload()
+            })
+            .catch((e) => {
+                console.log(e)
+            })
 
 
     }
 
 
+    const renderContent = () => {
 
-    return (props.sharePopup) ? (
-            <div className='popup center'>
-                <div className='popup-inner flex-row flex-wrap center'>
-                    <div>
-                        <img className='close-btn' src={x} onClick={() => props.setSharePopup(false)} />
-                    </div>
-                    {users1.map((user) => {
-                    return (
-                        <div className='flex-row flex-wrap center'>
-                        <div className='flex-col center backround-event'>
-                            <div className='popup-text-desc'>
-                                {user.username}
-                            </div>
-                            <div className='popup-text'>
-                            </div>
+        if (!props.sharePopup) {
+            return null
+        } else if (props.isLoading || event1 == null || users1 == null) {
+            // render loading spinnder
+            return (
+                <div className='popup center'>
+                    <div className='popup-inner flex-row flex-wrap center'>
+                        <div>
                             <div>
-                                <button id={user.id} onClick={clickHandler}>
-                                    share
-                                </button>
+                                <img className='close-btn' src={x} alt={x} onClick={() => props.setEditPopup(false)} />
                             </div>
-                        </div>
-                    </div>
-                    )
-                    })}
-                    {props.children}
-                </div>
-            </div>
-        )  : null;
-}
 
+                            <LoadingSpinner />
+                        </div>
+
+                    </div >
+                </div>
+
+            )
+        } else {
+
+            return (
+                <div className='popup center'>
+                    <div className='popup-inner flex-row flex-wrap center'>
+                        <div>
+                            <img className='close-btn' src={x} alt={x} onClick={() => props.setSharePopup(false)} />
+                        </div>
+                        {users1.map((user) => {
+                            return (
+                                <div className='flex-row flex-wrap center'>
+                                    <div className='flex-col center backround-event'>
+                                        <div className='popup-text-desc'>
+                                            {user.username}
+                                        </div>
+                                        <div className='popup-text'>
+                                        </div>
+                                        <div>
+                                            <button id={user.id} onClick={clickHandler}>
+                                                share
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        {props.children}
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    return (
+        renderContent()
+
+    )
+
+
+}
 export default SharePopup

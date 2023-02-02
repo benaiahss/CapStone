@@ -2,14 +2,16 @@ import '../src/css/reusables/Header.css';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom'
-import SignUp from"./components/pages/SignUp"
-import SignIn from"./components/pages/SignIn"
+import SignUp from "./components/pages/SignUp"
+import SignIn from "./components/pages/SignIn"
 import Home from './components/pages/Home';
+import Profile from './components/pages/Profile';
 import AddEvent from './components/pages/AddEvent';
 import AddFriends from './components/pages/AddFriends';
 import PageWrapper from './components/reusables/PageWrapper'
 import TermsOfService from './components/pages/TermsOfService'
 import Admin from './components/pages/Admin'
+import Inbox from './components/pages/Inbox';
 
 function App() {
 
@@ -35,7 +37,7 @@ function App() {
           console.log(e)
           setIsLoading(false)
         })
-    }else{
+    } else {
       setIsLoading(false)
     }
   }, [])
@@ -45,23 +47,27 @@ function App() {
   return (
 
     <PageWrapper user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
-    <Routes>
+      <Routes>
 
-     <Route path='/' element={<Home user={user} setUser={setUser} />} />
+        <Route path='/' element={<Home user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
 
-      <Route path='/SignUp' element={<SignUp user={user} setUser={setUser} />} />
+        <Route path='/profile' element={<Profile user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
 
-      <Route path='/SignIn' element={<SignIn user={user} setUser={setUser} />} />
+        <Route path='/SignUp' element={<SignUp user={user} setUser={setUser} />} />
 
-      <Route path='/AddEvent' element={<AddEvent user={user} setUser={setUser} />} />
+        <Route path='/SignIn' element={<SignIn user={user} setUser={setUser} />} />
 
-      <Route path='/AddFriends' element={<AddFriends user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
+        <Route path='/AddEvent' element={<AddEvent user={user} setUser={setUser} />} />
 
-      <Route path='/TermsOfService' element={<TermsOfService user={user} setUser={setUser} />} />
+        <Route path='/AddFriends' element={<AddFriends user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
 
-      <Route path='/Admin' element={<Admin user={user} setUser={setUser} />} />
+        <Route path='/TermsOfService' element={<TermsOfService user={user} setUser={setUser} />} />
 
-    </Routes>
+        <Route path='/Admin' element={<Admin user={user} setUser={setUser} />} />
+
+        <Route path='/Inbox' element={<Inbox user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
+
+      </Routes>
     </PageWrapper>
 
   );

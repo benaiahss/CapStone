@@ -7,7 +7,7 @@ function SharedEventsBox(props) {
     const clickHandler = (event) =>{
         axios.get(`http://localhost:8080/getEventById/${event.currentTarget.id}`)
           .then((response) => {
-            props.setButtonPopup(true)
+            props.setSharedPopup(true)
             props.setActiveEvent(response.data)
           })
           .catch((e) => {

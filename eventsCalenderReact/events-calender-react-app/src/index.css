@@ -36,6 +36,14 @@ html, body {
   flex-direction: column;
 }
 
+.flex-end{
+  justify-content: end;
+}
+
+.flex-start{
+  justify-content: start;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
 }

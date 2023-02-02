@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calendar.entity.Event;
 import com.calendar.entity.User;
+import com.calendar.service.EventService;
 import com.calendar.service.UserService;
 
 @RestController
@@ -22,6 +24,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventService eventService;
 
     // RequestMapping for your endpoints to configure them
     @RequestMapping(
@@ -60,6 +65,29 @@ public class UserController {
             User signedInUser = userService.findByEmailAndPassword(user);
        
             return new ResponseEntity<>(signedInUser, HttpStatus.OK);
+        } catch(Exception e) {
+            System.out.println(e.getLocalizedMessage());
+            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+        } catch(Error e) {
+            System.out.println(e);
+            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(
+        value="/updateUser",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        method = RequestMethod.POST
+    )
+    public ResponseEntity<Object> updateUser(@RequestBody User user) {
+
+        try {
+
+             user = userService.updateUser(user);
+       
+            return new ResponseEntity<>(user, HttpStatus.OK);
         } catch(Exception e) {
             System.out.println(e.getLocalizedMessage());
             return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
@@ -191,6 +219,30 @@ public class UserController {
         try {
 
             List<User> tempUsers = userService.findAllNonFriends(userId);
+       
+            return new ResponseEntity<>(tempUsers, HttpStatus.OK);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(Error e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(
+        value="/findEventUser/{eventId}/{userId}",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        method = RequestMethod.GET
+    )
+    public ResponseEntity<Object> findEventUser(@PathVariable Integer userId, @PathVariable Integer eventId) {
+
+        try {
+
+            Event event = eventService.getEventById(eventId);
+
+            List<User> tempUsers = userService.findEventUser(userId, event);
        
             return new ResponseEntity<>(tempUsers, HttpStatus.OK);
         } catch(Exception e) {

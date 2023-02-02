@@ -3,16 +3,16 @@ import '../../css/reusables/EventsBox.css'
 import axios from 'axios'
 
 function EventsBox(props) {
-    const clickHandler = (event) =>{
+    const clickHandler = (event) => {
         axios.get(`http://localhost:8080/getEventById/${event.currentTarget.id}`)
-          .then((response) => {
-            props.setButtonPopup(true)
-            props.setActiveEvent(response.data)
-          })
-          .catch((e) => {
-              console.log(e)
+            .then((response) => {
+                props.setButtonPopup(true)
+                props.setActiveEvent(response.data)
+            })
+            .catch((e) => {
+                console.log(e)
 
-          })
+            })
 
 
 
@@ -36,14 +36,14 @@ function EventsBox(props) {
                                 <div> {event.title}</div>
                             </div>
                             <div className='flex-row'>
-                            <div className='flex-col center events-text-div'>
-                                <div className='event-text'>Start Time</div>
-                                <div> {event.startTime}</div>
-                            </div>
-                            <div className='flex-col center events-text-div'>
-                                <div className='event-text'>Start Date</div>
-                                <div> {event.startDate}</div>
-                            </div>
+                                <div className='flex-col center events-text-div'>
+                                    <div className='event-text'>Start Time</div>
+                                    <div> {event.startTime}</div>
+                                </div>
+                                <div className='flex-col center events-text-div'>
+                                    <div className='event-text'>Start Date</div>
+                                    <div> {event.startDate}</div>
+                                </div>
                             </div>
                         </div>
                     )
