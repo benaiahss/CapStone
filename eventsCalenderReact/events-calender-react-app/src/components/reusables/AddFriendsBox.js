@@ -24,7 +24,7 @@ function AddFriendsBox(props) {
                             setTimeout(() => {
                                 setAllNonFriends(response.data)
                                 setIsLoading(false)
-                            }, 1000)
+                            }, 200)
                         })
                         .catch((e) => {
                             console.log(e)

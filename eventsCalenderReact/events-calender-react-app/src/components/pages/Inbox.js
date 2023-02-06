@@ -22,7 +22,7 @@ function Inbox(props) {
                             setAllMessages(response.data)
                             setTimeout(() => {
                                 setIsLoading(false)
-                            }, 1000)
+                            }, 200)
                                 .catch((e) => {
                                     console.log(e)
                                     setIsLoading(false)
@@ -43,7 +43,6 @@ function Inbox(props) {
             <InboxBox setAllMessages={setAllMessages} allMessages={allMessages} setActiveMessage={setActiveMessage} setMessagePopup={setMessagePopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} />
         </div>
         <InboxPopup messagePopup={messagePopup} setMessagePopup={setMessagePopup} activeMessage={activeMessage} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}>
-
         </InboxPopup>
         </div>
     )

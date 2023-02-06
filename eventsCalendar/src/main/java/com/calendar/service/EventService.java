@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.calendar.entity.Event;
 import com.calendar.entity.Message;
+import com.calendar.entity.SentMessage;
 import com.calendar.entity.User;
 import com.calendar.repo.EventRepo;
 
@@ -21,6 +22,9 @@ public class EventService {
 
     @Autowired
     MessageService messageService;
+
+    @Autowired
+    SentMessageService sentMessageService;
 
     public Event create(Event event, Integer userId) {
 
@@ -78,25 +82,18 @@ public class EventService {
 
     }
 
-    public User deleteSharedEvent(Integer eventId, Integer userId) throws Exception {
+    public User deleteSharedEvent(Integer userId, Integer eventId) throws Exception {
 
         User user = userService.findById(userId);
         Event event = getEventById(eventId);
-
-        if (event == null || user == null) {
-            throw new Exception("Not Found!");
-        } else {
 
             for (int i = 0; i < user.getSharedEvents().size(); i++) {
                 if (user.getSharedEvents().get(i).getId().equals(event.getId())) {
                     user.getSharedEvents().remove(i);
                     userService.save(user);
-                } else {
-                    throw new Exception("Not Found!");
                 }
 
             }
-        }
         return user;
     }
 
@@ -124,13 +121,18 @@ public class EventService {
 
         messageService.save(message);
 
+        SentMessage sentMessage = new SentMessage();
+        sentMessage.setEvent(sharedEvent);
+        sentMessage.setTitle(" You Shared an event with " + user.getUsername());
+        signedInUser.getSentInbox().add(sentMessage);
+        sentMessageService.save(sentMessage);
+
         user.getSharedEvents().add(sharedEvent);
 
         sharedEvent.setIsShared(true);
-
         save(sharedEvent);
-
         userService.save(user);
+        userService.save(signedInUser);
 
         return sharedEvent;
 

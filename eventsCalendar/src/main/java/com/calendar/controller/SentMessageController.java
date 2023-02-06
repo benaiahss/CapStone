@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.calendar.entity.Message;
+import com.calendar.entity.SentMessage;
 import com.calendar.entity.User;
-import com.calendar.service.MessageService;
+import com.calendar.service.SentMessageService;
 
 @RestController
 @CrossOrigin("*")
-public class MessageController {
+public class SentMessageController {
 
     @Autowired
-    MessageService messageService;
+    SentMessageService sentMessageService;
 
     @RequestMapping(
             // Value is the path of the endpoint, MUST BE UNIQUE
-            value = "/createMessage/{userId}",
+            value = "/createSentMessage/{userId}",
             // Consumes JSON means it will be accepting data in JSON format, like how we
             // send the body in Postman
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -34,18 +34,18 @@ public class MessageController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             // method is the type HTTP rest call you need to access this endpoint
             method = RequestMethod.POST) // Data from post and put requets come in the request body
-    public ResponseEntity<Object> create(@RequestBody Message message, @PathVariable Integer userId) {
+    public ResponseEntity<Object> create(@RequestBody SentMessage sentMessage, @PathVariable Integer userId) {
 
         try {
 
             // send data to service for processing
-            Message createdMessage = messageService.create(userId, message);
+            SentMessage createdSentMessage = sentMessageService.create(userId, sentMessage);
 
             // return the data on success
-            return new ResponseEntity<>(createdMessage, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdSentMessage, HttpStatus.CREATED);
 
             // Catches will catch any error that happens in the process and return the
-            // message
+            // sentMessage
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -56,14 +56,14 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/getMessageById/{messageId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Object> getMessageById(@PathVariable Integer messageId) {
+    @RequestMapping(value = "/getSentMessageById/{sentMessageId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> getSentMessageById(@PathVariable Integer sentMessageId) {
 
         try {
 
-            Message message = messageService.getMessageById(messageId);
+            SentMessage sentMessage = sentMessageService.getSentMessageById(sentMessageId);
 
-            return new ResponseEntity<>(message, HttpStatus.OK);
+            return new ResponseEntity<>(sentMessage, HttpStatus.OK);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,14 +74,14 @@ public class MessageController {
         }
     }
 
-    @RequestMapping(value = "/getAllMessage", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllMessage() {
+    @RequestMapping(value = "/getAllSentMessage", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> getAllSentMessage() {
 
         try {
 
-            List<Message> messages = messageService.getAll();
+            List<SentMessage> sentMessages = sentMessageService.getAll();
 
-            return new ResponseEntity<>(messages, HttpStatus.OK);
+            return new ResponseEntity<>(sentMessages, HttpStatus.OK);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -93,14 +93,14 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/getUsersMessages/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Object> getUsersMessages(@PathVariable Integer userId) {
+    @RequestMapping(value = "/getUsersSentMessages/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> getUsersSentMessages(@PathVariable Integer userId) {
 
         try {
 
-            List<Message> usersMessages = messageService.getUsersMessages(userId);
+            List<SentMessage> usersSentMessages = sentMessageService.getUsersSentMessages(userId);
 
-            return new ResponseEntity<>(usersMessages, HttpStatus.OK);
+            return new ResponseEntity<>(usersSentMessages, HttpStatus.OK);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -111,12 +111,12 @@ public class MessageController {
         }
     }
 
-    @RequestMapping(value = "/deleteMessageById/{messageId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Object> deleteMessageById(@PathVariable Integer messageId, @PathVariable Integer userId) {
+    @RequestMapping(value = "/deleteSentMessageById/{sentMessageId}/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<Object> deleteSentMessageById(@PathVariable Integer sentMessageId, @PathVariable Integer userId) {
 
         try {
 
-            User user = messageService.deleteMessageById(messageId, userId);
+            User user = sentMessageService.deleteSentMessageById(sentMessageId, userId);
 
             return new ResponseEntity<>(user, HttpStatus.OK);
 
@@ -129,12 +129,12 @@ public class MessageController {
         }
     }
 
-    @RequestMapping(value = "/deleteAll/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteAllSentMessages/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Object> deleteAll(@PathVariable Integer userId) {
 
         try {
 
-            User user = messageService.deleteAll(userId);
+            User user = sentMessageService.deleteAll(userId);
 
             return new ResponseEntity<>(user, HttpStatus.OK);
 
@@ -145,38 +145,6 @@ public class MessageController {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @RequestMapping(
-            // Value is the path of the endpoint, MUST BE UNIQUE
-            value = "/send/{userId}/{loggedInUserId}",
-            // Consumes JSON means it will be accepting data in JSON format, like how we
-            // send the body in Postman
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            // Produces means it will be sending out JSON formatted Data
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            // method is the type HTTP rest call you need to access this endpoint
-            method = RequestMethod.POST) // Data from post and put requets come in the request body
-    public ResponseEntity<Object> send(@RequestBody Message message, @PathVariable Integer userId,  @PathVariable Integer loggedInUserId) {
-
-        try {
-
-            // send data to service for processing
-            Message sentMessage = messageService.send(userId, loggedInUserId, message);
-
-            // return the data on success
-            return new ResponseEntity<>(sentMessage, HttpStatus.CREATED);
-
-            // Catches will catch any error that happens in the process and return the
-            // message
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Error e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
 
     

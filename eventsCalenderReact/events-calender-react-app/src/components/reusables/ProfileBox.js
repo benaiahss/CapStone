@@ -20,7 +20,7 @@ function ProfileBox(props) {
                     setTimeout(() => {
                         setUser(response.data)
                         setIsLoading(false)
-                    }, 1000)
+                    }, 200)
                         .catch((e) => {
                             console.log(e)
                             setIsLoading(false)

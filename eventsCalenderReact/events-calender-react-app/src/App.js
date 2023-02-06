@@ -12,6 +12,7 @@ import PageWrapper from './components/reusables/PageWrapper'
 import TermsOfService from './components/pages/TermsOfService'
 import Admin from './components/pages/Admin'
 import Inbox from './components/pages/Inbox';
+import SendMessage from './components/pages/SendMessage';
 
 function App() {
 
@@ -66,6 +67,8 @@ function App() {
         <Route path='/Admin' element={<Admin user={user} setUser={setUser} />} />
 
         <Route path='/Inbox' element={<Inbox user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
+
+        <Route path='/sendMessage' element={<SendMessage user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />} />
 
       </Routes>
     </PageWrapper>

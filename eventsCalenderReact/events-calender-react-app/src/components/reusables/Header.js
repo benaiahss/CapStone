@@ -2,12 +2,15 @@ import "../../css/reusables/Header.css"
 import DropDown from '../reusables/DropDown'
 import logo from '../../img/calendarimg.jpg'
 import LoadingSpinner from "./LoadingSpinner"
+import { useNavigate } from 'react-router'
 
 const Header = (props) => {
+    const navigator = useNavigate()
 
     const signOut = () => {
         localStorage.removeItem("email")
         props.setUser(null)
+        navigator('/SignIn')
     }
 
     const showTheRightButtons = () => {

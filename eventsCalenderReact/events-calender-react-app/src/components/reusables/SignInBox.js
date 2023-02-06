@@ -28,16 +28,9 @@ function SignInBox(props) {
         .then((response) => {
             // Logically do what you gotta do
             const user = response.data
-            if(user.isAdmin === true) {
-              localStorage.setItem("email", response.data.email)
-              props.setUser(response.data)
-                navigator('/Admin')
-            }
-            else{
             localStorage.setItem("email", response.data.email)
             props.setUser(response.data)
             navigator('/')
-          }
         }).catch((e) => {
             console.log(e.message)
         })

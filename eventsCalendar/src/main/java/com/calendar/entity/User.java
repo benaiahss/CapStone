@@ -69,6 +69,10 @@ public class User {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Message> inbox;
 
+    @OneToMany
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<SentMessage> sentInbox;
+    
     public User() {
     }
 
@@ -148,11 +152,19 @@ public class User {
         this.inbox = inbox;
     }
 
+    public List<SentMessage> getSentInbox() {
+        return sentInbox;
+    }
+
+    public void setSentInbox(List<SentMessage> sentInbox) {
+        this.sentInbox = sentInbox;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
                 + ", confirmPass=" + confirmPass + ", isAdmin=" + isAdmin + ", events=" + events + ", sharedEvents="
-                + sharedEvents + ", friends=" + friends + ", inbox=" + inbox + "]";
+                + sharedEvents + ", friends=" + friends + ", inbox=" + inbox + ", sentInbox=" + sentInbox + "]";
     }
 
 }

@@ -39,6 +39,7 @@ function DropDown(props) {
           <div className="flex-col">
             <a href='/addEvent'><DropdownItem text={"Add Event"} href={"/addEvent"} /></a>
             <a href='/profile'><DropdownItem text={"Edit Profile"} href={'/profile'} /></a>
+            <a href='/sendMessage'><DropdownItem text={"Send Message"} href={'/sendMessage'} /></a>
             <a href='/inbox'><DropdownItem text={"Inbox"} href={'/inbox'} /></a>
             <a href='/help'><DropdownItem text={"Help"} href={'/help'} /></a>
             {

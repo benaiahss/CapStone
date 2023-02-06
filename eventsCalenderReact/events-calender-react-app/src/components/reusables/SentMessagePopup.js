@@ -3,11 +3,10 @@ import '../../css/reusables/PopUp.css'
 import x from '../../img/X.jpg'
 import '../../css/reusables/InboxPopup.css'
 
-function InboxPopup(props) {
-
+function SentMessagePopup(props) {
     const deleteHandler = (event) => {
 
-        axios.get(`http://localhost:8080/deleteMessageById/${event.currentTarget.id}/${props.user.id}`)
+        axios.get(`http://localhost:8080/deleteSentMessageById/${event.currentTarget.id}/${props.user.id}`)
             .then((response) => {
                 window.location.reload()
             })
@@ -17,14 +16,15 @@ function InboxPopup(props) {
     }
 
 
-    return (props.messagePopup) ? (
+    return (props.sentMessagePopup) ? (
         <div className='inbox-popup center'>
             <div className='inbox-popup-inner flex-row flex-wrap center'>
                 <div>
-                    <img className='close-btn' src={x} onClick={() => props.setMessagePopup(false)} />
+                    <img className='close-btn' src={x} onClick={() => props.setSentMessagePopup(false)} />
                 </div>
                 <div className='flex-row flex-wrap center full-width'>
-                    { props.activeMessage.title ?
+                    
+                { props.activeMessage.title ?
                     <div className='flex-col center backround-message-title'>
                         <div className='inbox-popup-text-desc'>
                             TITLE
@@ -34,6 +34,7 @@ function InboxPopup(props) {
                         </div>
                     </div>
                     : null}
+
                     { props.activeMessage.subject ?
                     <div className='flex-col center backround-message-subject'>
                         <div className='inbox-popup-text-desc flex-row flex-wrap'>
@@ -187,16 +188,16 @@ function InboxPopup(props) {
                      : null}
                 </div>
                 <div className='message-button center flex-col flex-end'>
-                        <div className='flex-row'>
-                            <button id={props.activeMessage.id} onClick={deleteHandler}>
-                                delete
-                            </button>
-                        </div>
+                    <div className='flex-row'>
+                        <button id={props.activeMessage.id} onClick={deleteHandler}>
+                            delete
+                        </button>
                     </div>
+                </div>
             </div>
             {props.children}
         </div>
     ) : null;
 }
 
-export default InboxPopup
+export default SentMessagePopup
