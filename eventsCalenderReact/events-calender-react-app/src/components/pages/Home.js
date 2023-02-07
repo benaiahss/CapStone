@@ -67,13 +67,13 @@ function Home(props) {
       <div className='half-width center'>
         <SharedEventsBox setSharedPopup={setSharedPopup} setActiveEvent={setActiveEvent} sharedEvents={sharedEvents} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading}/>
       </div>
-      <PopUp buttonPopup={buttonPopup} setEditPopup={setEditPopup} activeEvent={activeEvent} setSharePopup={setSharePopup} setButtonPopup={setButtonPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
+      <PopUp setActiveEvent={setActiveEvent} buttonPopup={buttonPopup} setEditPopup={setEditPopup} activeEvent={activeEvent} setSharePopup={setSharePopup} setButtonPopup={setButtonPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
       </PopUp>
-      <SharePopup isLoading={isLoading} sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser}>
+      <SharePopup setActiveEvent={setActiveEvent} isLoading={isLoading} sharePopup={sharePopup} activeEvent={activeEvent} setSharePopup={setSharePopup} user={props.user} setUser={props.setUser}>
       </SharePopup>
-      <EditPopup editPopup={editPopup} activeEvent={activeEvent} setEditPopup={setEditPopup} user={props.user} setUser={props.setUser} isLoading={isLoading}>
+      <EditPopup setActiveEvent={setActiveEvent} editPopup={editPopup} activeEvent={activeEvent} setEditPopup={setEditPopup} user={props.user} setUser={props.setUser} isLoading={isLoading}>
       </EditPopup>
-      <SharedPopup sharedPopup={sharedPopup} activeEvent={activeEvent} setSharedPopup={setSharedPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
+      <SharedPopup setActiveEvent={setActiveEvent} sharedPopup={sharedPopup} activeEvent={activeEvent} setSharedPopup={setSharedPopup} user={props.user} setUser={props.setUser} isLoading={isLoading} setIsLoading={setIsLoading} >
       </SharedPopup>
     </div>
   )

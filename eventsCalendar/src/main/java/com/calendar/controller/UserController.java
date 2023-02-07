@@ -236,7 +236,7 @@ public class UserController {
         produces = MediaType.APPLICATION_JSON_VALUE,
         method = RequestMethod.GET
     )
-    public ResponseEntity<Object> findEventUser(@PathVariable Integer userId, @PathVariable Integer eventId) {
+    public ResponseEntity<Object> findEventUser(@PathVariable Integer eventId, @PathVariable Integer userId) {
 
         try {
 

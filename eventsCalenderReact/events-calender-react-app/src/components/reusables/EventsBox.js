@@ -6,8 +6,8 @@ function EventsBox(props) {
     const clickHandler = (event) => {
         axios.get(`http://localhost:8080/getEventById/${event.currentTarget.id}`)
             .then((response) => {
-                props.setButtonPopup(true)
                 props.setActiveEvent(response.data)
+                props.setButtonPopup(true)
             })
             .catch((e) => {
                 console.log(e)
@@ -17,7 +17,6 @@ function EventsBox(props) {
 
 
     }
-
     const renderContent = () => {
 
         if (props.isLoading) {

@@ -103,22 +103,19 @@ public class UserService {
 
         user = save(user);
 
-       return user;
+        return user;
 
     }
-
 
     public List<User> findEventUser(Integer userId, Event event) {
 
         User user = findById(userId);
 
         List<User> tempUsers = userRepo.findAll();
-
         tempUsers.remove(user);
-
-        for (int i = 0; i < tempUsers.size(); i++) {
+        for (int i = 0; i < tempUsers.size()-1; i++) {
             for (int j = 0; j < tempUsers.get(i).getSharedEvents().size(); j++) {
-                if (event.getId().equals((tempUsers.get(i).getSharedEvents().get(j).getId()))) {
+                if (event.getId().equals(tempUsers.get(i).getSharedEvents().get(j).getId())) {
                     tempUsers.remove(i);
                 }
             }

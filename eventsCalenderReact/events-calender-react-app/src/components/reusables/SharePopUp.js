@@ -9,7 +9,6 @@ function SharePopup(props) {
     const [event1, setEvent1] = useState([])
 
     useEffect(() => {
-
         const email = localStorage.getItem("email")
 
         if (email !== null) {
@@ -17,7 +16,6 @@ function SharePopup(props) {
             axios.get(`http://localhost:8080/getByEmail/${email}`)
 
                 .then((response) => {
-
                     axios.get(`http://localhost:8080/findEventUser/${props.activeEvent.id}/${response.data.id}`)
                         .then((response) => {
                             console.log(response.data)
@@ -32,13 +30,14 @@ function SharePopup(props) {
                     console.log(e)
                 })
         }
-       
+
     }, [props.activeEvent])
 
-    const clickHandler = (event) => {
+    const shareHandler = (event) => {
 
         axios.get(`http://localhost:8080/share/${event.currentTarget.id}/${event1.id}/${props.user.id}`)
             .then((response) => {
+                props.setActiveEvent(null)
                 window.location.reload()
             })
             .catch((e) => {
@@ -46,6 +45,11 @@ function SharePopup(props) {
             })
 
 
+    }
+
+    const clickHandler = () => {
+        props.setActiveEvent(null)
+        props.setSharePopup(false)
     }
 
 
@@ -60,7 +64,7 @@ function SharePopup(props) {
                     <div className='popup-inner flex-row flex-wrap center'>
                         <div>
                             <div>
-                                <img className='close-btn' src={x} alt={x} onClick={() => props.setEditPopup(false)} />
+                                <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
                             </div>
 
                             <LoadingSpinner />
@@ -76,7 +80,7 @@ function SharePopup(props) {
                 <div className='popup center'>
                     <div className='popup-inner flex-row flex-wrap center'>
                         <div>
-                            <img className='close-btn' src={x} alt={x} onClick={() => props.setSharePopup(false)} />
+                            <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
                         </div>
                         {users1.map((user) => {
                             return (
@@ -88,7 +92,7 @@ function SharePopup(props) {
                                         <div className='popup-text'>
                                         </div>
                                         <div>
-                                            <button id={user.id} onClick={clickHandler}>
+                                            <button id={user.id} onClick={shareHandler}>
                                                 share
                                             </button>
                                         </div>

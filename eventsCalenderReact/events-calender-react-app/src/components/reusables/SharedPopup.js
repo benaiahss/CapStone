@@ -8,6 +8,7 @@ function SharedPopup(props) {
 
         axios.get(`http://localhost:8080/deleteSharedEvent/${props.user.id}/${event.currentTarget.id}`)
             .then((response) => {
+                props.setActiveEvent(null)
                 window.location.reload()
             })
             .catch((e) => {
@@ -15,11 +16,15 @@ function SharedPopup(props) {
             })
     }
 
+    const clickHandler = () => {
+        props.setActiveEvent(null)
+        props.setSharedPopup(false)
+}
 return (props.sharedPopup) ? (
     <div className='popup center'>
         <div className='popup-inner flex-row flex-wrap center'>
             <div>
-                <img className='close-btn' src={x} onClick={() => props.setSharedPopup(false)} />
+                <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
             </div>
             <div className='flex-row flex-wrap center'>
                 <div className='flex-col center backround-event'>

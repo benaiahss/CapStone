@@ -9,7 +9,6 @@ function EditPopUp(props) {
     const [event1, setEvent] = useState(null)
 
     useEffect(() => {
-
         setEvent(props.activeEvent)
 
     }, [props.activeEvent])
@@ -28,11 +27,17 @@ function EditPopUp(props) {
         axios.post(`http://localhost:8080/updateEvent`, event1)
             .then((response) => {
                 // Form tag was messing up the navigate, causing query params to show. so dont use form tags!
+                props.setActiveEvent(null)
                 window.location.reload()
             }).catch((e) => {
                 console.log(e)
             })
     }
+
+    const clickHandler = () => {
+        props.setActiveEvent(null)
+        props.setEditPopup(false)
+}
 
     const renderContent = () => {
         if (!props.editPopup) {
@@ -44,7 +49,7 @@ function EditPopUp(props) {
                     <div className='popup-inner flex-row flex-wrap center'>
                         <div>
                             <div>
-                                <img className='close-btn' src={x} alt={x} onClick={() => props.setEditPopup(false)} />
+                                <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
                             </div>
 
                             <LoadingSpinner />
@@ -59,7 +64,7 @@ function EditPopUp(props) {
                 <div className='popup center'>
                     <div className='popup-inner flex-row flex-wrap center'>
                         <div>
-                            <img className='close-btn' src={x} alt={x} onClick={() => props.setEditPopup(false)} />
+                            <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
                         </div>
                         <div className='flex-col center'>
                             <div className='center flex-wrap flex-row'>

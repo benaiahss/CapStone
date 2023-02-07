@@ -20,16 +20,20 @@ function PopUp(props) {
                 props.setSharePopup(true)
     }
 
+    const clickHandler = () => {
+        props.setActiveEvent(null)
+        props.setButtonPopup(false)
+}
+
     const editHandler = () => {
         props.setButtonPopup(false)
         props.setEditPopup(true)
 }
-
 return (props.buttonPopup) ? (
     <div className='popup center'>
         <div className='popup-inner flex-row flex-wrap center'>
             <div>
-                <img className='close-btn' src={x} onClick={() => props.setButtonPopup(false)} />
+                <img className='close-btn' src={x} alt={x} onClick={clickHandler} />
             </div>
             <div className='flex-row flex-wrap center'>
                 <div className='flex-col center backround-event'>
