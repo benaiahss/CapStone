@@ -113,7 +113,8 @@ public class UserService {
 
         List<User> tempUsers = userRepo.findAll();
         tempUsers.remove(user);
-        for (int i = 0; i < tempUsers.size()-1; i++) {
+        
+        for (int i = 0; i < tempUsers.size(); i++) {
             for (int j = 0; j < tempUsers.get(i).getSharedEvents().size(); j++) {
                 if (event.getId().equals(tempUsers.get(i).getSharedEvents().get(j).getId())) {
                     tempUsers.remove(i);
