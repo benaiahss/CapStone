@@ -1,0 +1,12 @@
+.home-box{
+    height: 90%;
+    width: 80%;
+    background-color: #303030;
+    border-radius: 1%;
+}
+
+.home-text{
+    color: azure;
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -78,3 +78,10 @@ a{
   font-size: 35px;
   font-weight: 600;
 }
+
+.inbox-number{
+  justify-content: left;
+  color: red;
+  position:absolute;
+  font-size: 18px;
+}

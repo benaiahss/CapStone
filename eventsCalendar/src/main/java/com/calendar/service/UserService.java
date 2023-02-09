@@ -19,6 +19,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
+
     public User signUp(User user) throws Exception {
 
         if (!user.getPassword().equals(user.getConfirmPass())) {

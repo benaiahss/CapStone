@@ -40,7 +40,7 @@ function DropDown(props) {
             <a href='/addEvent'><DropdownItem text={"Add Event"} href={"/addEvent"} /></a>
             <a href='/profile'><DropdownItem text={"Edit Profile"} href={'/profile'} /></a>
             <a href='/sendMessage'><DropdownItem text={"Send Message"} href={'/sendMessage'} /></a>
-            <a href='/inbox'><DropdownItem text={"Inbox"} href={'/inbox'} /></a>
+            <a href='/inbox'><DropdownItem text={"Inbox"} href={'/inbox'} /><div className='inbox-number'>{props.user.inbox.length}</div></a>
             <a href='/help'><DropdownItem text={"Help"} href={'/help'} /></a>
             {
               props.user.isAdmin ? <a href='/Admin'><DropdownItem text={"Admin"} href={'/Admin'} /></a> : null

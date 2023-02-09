@@ -255,5 +255,36 @@ public class UserController {
 
     }
 
+    @RequestMapping(
+        value="/setAdmin/{userId}",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        method = RequestMethod.GET
+    )
+    public ResponseEntity<Object> findEventUser(@PathVariable Integer userId) {
+
+        try {
+
+            User user = userService.findById(userId);
+
+
+            if(user.getIsAdmin() == true) {
+                user.setIsAdmin(false);
+            } else {
+                user.setIsAdmin(true);
+            }
+
+            user = userService.save(user);
+       
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(Error e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 
 }

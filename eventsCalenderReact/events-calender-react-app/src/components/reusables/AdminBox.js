@@ -23,7 +23,26 @@ function AdminBox(props) {
             })
     }, [])
 
-    const submitHandler = () => {
+    const switchHandler = (event) => {
+        setIsLoading(true)
+        axios.get(`http://localhost:8080/setAdmin/${event.target.id}`)
+        .then((response) => {
+            axios.get('http://localhost:8080/getAllUsers')
+            .then((response) => {
+                setTimeout(() => {
+                    setAllFriends(response.data)
+                    setIsLoading(false)
+                }, 200)
+            })
+            .catch((e) => {
+                console.log(e)
+                setIsLoading(false)
+            })
+        })
+        .catch((e) => {
+            console.log(e)
+            setIsLoading(false)
+        })
 
     }
 
@@ -46,7 +65,7 @@ function AdminBox(props) {
                             <div className='center flex-row'>
                             <div className='admin'>Admin</div>
                             <label class="switch">
-                                <input type="checkbox"/>
+                                <input id={friend.id} type="checkbox" checked={friend.isAdmin} onChange={switchHandler}/>
                                     <span class="slider"></span>
                             </label>
                             </div>
