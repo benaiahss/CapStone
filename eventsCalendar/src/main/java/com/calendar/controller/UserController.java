@@ -286,5 +286,27 @@ public class UserController {
 
     }
 
+    @RequestMapping(
+        value="/findByUsername/{username}",
+        produces = MediaType.APPLICATION_JSON_VALUE,
+        method = RequestMethod.GET
+    )
+    public ResponseEntity<Object> findByUsername(@PathVariable String username) {
+
+        try {
+
+            User user = userService.findByUsername(username);
+       
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(Error e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 
 }

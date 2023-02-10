@@ -1,5 +1,7 @@
 package com.calendar.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import com.calendar.entity.Message;
 import com.calendar.entity.SentMessage;
 import com.calendar.entity.User;
 import com.calendar.repo.EventRepo;
+import com.calendar.repo.UserRepo;
 
 @Service
 public class EventService {
 
     @Autowired
     EventRepo eventRepo;
+
+    @Autowired
+    UserRepo userRepo;
 
     @Autowired
     UserService userService;
@@ -43,6 +49,31 @@ public class EventService {
         return eventRepo.findAll();
     }
 
+    public void checkDate() {
+        
+        List<Event> events = eventRepo.findAll();
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getStartDate().isAfter(date)
+                    || (events.get(i).getStartDate().equals(date) && events.get(i).getStartTime().isAfter(time)
+                            || events.get(i).getStartTime().equals(time))) {
+
+                User user = userService.findByUsername(events.get(i).getUsername());
+
+                Message message = new Message();
+                message.setTitle(events.get(i).getMessage());
+                messageService.save(message);
+
+                user.getInbox().add(message);
+                userService.save(user);
+            }
+
+        }
+
+    }
+
     public List<Event> getUsersEvents(Integer userId) {
 
         User user = userService.findById(userId);
@@ -59,9 +90,28 @@ public class EventService {
 
     public Event updateEvent(Event event) throws Exception {
 
-        Event savedEvent = save(event);
+        List<User> users = userRepo.findAll();
 
-        return savedEvent;
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = 0; j < users.get(i).getSharedEvents().size(); j++) {
+                if (users.get(i).getSharedEvents().get(j).getId().equals(event.getId())) {
+
+                    Message message = new Message();
+                    message.setEvent(event);
+                    message.setTitle("An event shared with you was edited click to see");
+                    messageService.save(message);
+
+                    users.get(i).getInbox().add(message);
+                    userService.save(users.get(i));
+
+                }
+
+            }
+        }
+
+        event = save(event);
+
+        return event;
 
     }
 
@@ -76,9 +126,22 @@ public class EventService {
         return eventRepo.findById(id).get();
     }
 
-    public void deleteEventById(Integer id) {
+    public void deleteEventById(Integer eventId) {
 
-        eventRepo.deleteById(id);
+        List<User> users = userRepo.findAll();
+
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = 0; j < users.get(i).getSharedEvents().size(); j++) {
+                if (users.get(i).getSharedEvents().get(j).getId().equals(eventId)) {
+                    users.get(i).getSharedEvents().remove(j);
+                    userService.save(users.get(i));
+                } else {
+                    eventRepo.deleteById(eventId);
+                }
+
+            }
+
+        }
 
     }
 
@@ -87,13 +150,13 @@ public class EventService {
         User user = userService.findById(userId);
         Event event = getEventById(eventId);
 
-            for (int i = 0; i < user.getSharedEvents().size(); i++) {
-                if (user.getSharedEvents().get(i).getId().equals(event.getId())) {
-                    user.getSharedEvents().remove(i);
-                    userService.save(user);
-                }
-
+        for (int i = 0; i < user.getSharedEvents().size(); i++) {
+            if (user.getSharedEvents().get(i).getId().equals(event.getId())) {
+                user.getSharedEvents().remove(i);
+                userService.save(user);
             }
+
+        }
         return user;
     }
 
@@ -104,7 +167,6 @@ public class EventService {
         User signedInUser = userService.findById(signedInUserId);
 
         Event sharedEvent = getEventById(eventId);
-
 
         for (int i = 0; i < user.getSharedEvents().size(); i++) {
             if (user.getSharedEvents().get(i).getId() == (sharedEvent.getId())) {

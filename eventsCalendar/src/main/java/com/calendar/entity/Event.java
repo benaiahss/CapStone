@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -75,12 +73,7 @@ public class Event {
     @Column(name = "state")
     private String state;
 
-    @ManyToMany
-    @JoinTable(name = "shared_events", joinColumns = {
-            @JoinColumn(name = "shared_event_id", referencedColumnName = "id")
-    }, inverseJoinColumns = {
-            @JoinColumn(name = "user_id", referencedColumnName = "id")
-    })
+    @ManyToMany(mappedBy = "sharedEvents")
     @JsonIgnore
     List<User> users;
 

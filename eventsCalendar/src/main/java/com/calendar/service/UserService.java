@@ -1,5 +1,7 @@
 package com.calendar.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ public class UserService {
     public User save(User user) {
         return userRepo.save(user);
     }
-
 
     public User signUp(User user) throws Exception {
 
@@ -52,7 +53,9 @@ public class UserService {
     }
 
     public List<User> findAllUsers() {
-        return userRepo.findAll();
+        List<User> users = userRepo.findAll();
+        Collections.sort(users, Comparator.comparing(User::getUsername));
+        return users;
     }
 
     public List<User> findAllNonFriends(Integer userId) {
@@ -74,6 +77,7 @@ public class UserService {
             }
 
         }
+        Collections.sort(tempUsers, Comparator.comparing(User::getUsername));
         return tempUsers;
     }
 
@@ -114,15 +118,23 @@ public class UserService {
 
         List<User> tempUsers = userRepo.findAll();
         tempUsers.remove(user);
-        
-        for (int i = 0; i < tempUsers.size(); i++) {
+
+        for (int i = 0; i < tempUsers.size() - 1; i++) {
             for (int j = 0; j < tempUsers.get(i).getSharedEvents().size(); j++) {
                 if (event.getId().equals(tempUsers.get(i).getSharedEvents().get(j).getId())) {
                     tempUsers.remove(i);
                 }
             }
         }
+        Collections.sort(tempUsers, Comparator.comparing(User::getUsername));
         return tempUsers;
+    }
+
+    public User findByUsername(String username) {
+
+        User user = userRepo.findByUsername(username);
+
+        return user;
     }
 
 }
