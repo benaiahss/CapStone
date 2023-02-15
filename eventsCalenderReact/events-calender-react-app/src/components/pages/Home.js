@@ -18,12 +18,6 @@ function Home(props) {
 
   useEffect(() => {
 
-    axios.get(`http://localhost:8080/checkDate`)
-    .then((response) => {
-      
-    })
-
-
     const email = localStorage.getItem("email")
 
     if (email !== null) {

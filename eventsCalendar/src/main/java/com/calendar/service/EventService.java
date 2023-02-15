@@ -49,31 +49,6 @@ public class EventService {
         return eventRepo.findAll();
     }
 
-    public void checkDate() {
-        
-        List<Event> events = eventRepo.findAll();
-        LocalDate date = LocalDate.now();
-        LocalTime time = LocalTime.now();
-
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getStartDate().isAfter(date)
-                    || (events.get(i).getStartDate().equals(date) && events.get(i).getStartTime().isAfter(time)
-                            || events.get(i).getStartTime().equals(time))) {
-
-                User user = userService.findByUsername(events.get(i).getUsername());
-
-                Message message = new Message();
-                message.setTitle(events.get(i).getMessage());
-                messageService.save(message);
-
-                user.getInbox().add(message);
-                userService.save(user);
-            }
-
-        }
-
-    }
-
     public List<Event> getUsersEvents(Integer userId) {
 
         User user = userService.findById(userId);

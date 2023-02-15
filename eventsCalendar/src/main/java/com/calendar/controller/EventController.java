@@ -211,24 +211,4 @@ public class EventController {
         }
     }
 
-    @RequestMapping(
-        value="/checkDate",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        method = RequestMethod.GET
-    )
-    public ResponseEntity<Object> checkDate() {
-
-        try {
-           checkDate();
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch(Error e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
 }
